@@ -6,7 +6,7 @@ function App() {
   return (
     <BrowserRouter>
     <Routes>
-      <Route path='/' element={<Home/>} />
+      <Route path='/' element={<div className='ui container' ><Home/></div>} />
       <Route path='*' element={<Home/>}/>
     </Routes>
     

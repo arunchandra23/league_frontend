@@ -118,10 +118,10 @@ const Home = () => {
                 setIsModalVisible(true)
               }
               setSubmitting(false);
-              setcourt([]);
-              setSlot([]);
+              // setcourt([]);
+              // setSlot([]);
               setIsCourtSelected(false);
-              resetForm({ values: "" });
+              resetForm();
               if (responce.status === 200) {
                 alert("Slot booked sucessfully");
                 setMsg('Slot booked sucessfully')
@@ -129,7 +129,7 @@ const Home = () => {
               setIsModalVisible(true)
             }}
           >
-            {({ isSubmitting, setFieldValue }) => (
+            {({ isSubmitting,values, setFieldValue }) => (
               <Form className="ui form">
                 <label>Email</label>
                 <Field type="email" name="email" />
@@ -155,19 +155,20 @@ const Home = () => {
                   component="div"
                 />
                 <br />
-                <label>Select areana:</label>
+                <label>Select Areana</label>
                 <br />
                 <select
+                defaultChecked
                   className="ui dropdown"
                   onChange={(e) => {
                     console.log(e.target.value);
                     getAvailableSlots(e.target.value);
                     setFieldValue("arena", e.target.value);
                   }}
-                  value={court}
+                  value={values.arena}
                   name="court"
                 >
-                  <option value="" hidden label="Select Court" />
+                  <option value="" defaultValue label="Choose" />
                   {courtValues?.map((m) => {
                     return (
                       <option
@@ -186,16 +187,17 @@ const Home = () => {
                 />
                 {isCourtSelected ? (
                   <div>
-                    <label>Select Slots</label>
+                    <label>Select slot</label>
                     <select
+                    defaultChecked
                       className="ui dropdown"
                       onChange={(e) => {
                         setFieldValue("slot", e.target.value);
                       }}
-                      value={slot}
+                      value={values.slot}
                       name="court"
                     >
-                      <option value="" hidden label="Select Slot" />
+                      <option value="" defaultValue label="Choose" />
                       {availablSlots?.map((m) => {
                         return (
                           <option

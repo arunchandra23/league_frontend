@@ -1,4 +1,3 @@
-// Render Prop
 import React, { useState, useEffect } from "react";
 import { Formik, Form, Field, ErrorMessage } from "formik";
 import { isValidPhoneNumber } from "react-phone-number-input";
@@ -6,16 +5,13 @@ import api from "../../api";
 import { Link } from "react-router-dom";
 import Modal from "../Modal/Modal";
 
-
 const Home = () => {
   const [show, setShow] = useState(true);
-  const [msg,setMsg]=useState('')
+  const [msg, setMsg] = useState("");
   const [isModalVisible, setIsModalVisible] = useState(false);
   const [courtValues, setcourtValues] = useState();
-  const [court, setcourt] = useState();
   const [isCourtSelected, setIsCourtSelected] = useState(false);
   const [availablSlots, setAvailableSlots] = useState();
-  const [slot, setSlot] = useState();
   const getCourts = async () => {
     const responce = await api.get("/getCourts");
     setcourtValues(responce.data);
@@ -31,7 +27,7 @@ const Home = () => {
   useEffect(() => {
     getCourts();
   }, []);
-  
+
   return (
     <div>
       <div className="ui container">
@@ -40,13 +36,15 @@ const Home = () => {
             THE LEAGUE
           </Link>
           <div className="right menu">
-            <Link to="/admin" className="ui item">
+            <Link to="/login" className="ui item">
               ADMIN
             </Link>
           </div>
         </div>
         <div style={{ margin: "20vh 0 0 0" }} className="ui raised segment ">
-        {isModalVisible?<Modal handleClose={setIsModalVisible} text={msg}/>:null}
+          {isModalVisible ? (
+            <Modal handleClose={setIsModalVisible} text={msg} />
+          ) : null}
           <Formik
             initialValues={{
               email: "",
@@ -107,15 +105,18 @@ const Home = () => {
                 values.email,
                 values.name
               );
-              let responce
-              try{
-                responce = await api.post(
-                  `/addBooking?name=${values.name}&email=${values.email}&contact=${values.contact}&ground_id=${values.arena}&slot_id=${values.slot}`
-                  );
-              }
-              catch{
-                setMsg('Something went wrong')
-                setIsModalVisible(true)
+              let responce;
+              try {
+                responce = await api.post(`/addBooking`, {
+                  name: values.name,
+                  email: values.email,
+                  contact: values.contact,
+                  ground_id: values.arena,
+                  slot_id: values.slot,
+                });
+              } catch {
+                setMsg("Something went wrong");
+                setIsModalVisible(true);
               }
               setSubmitting(false);
               // setcourt([]);
@@ -123,13 +124,13 @@ const Home = () => {
               setIsCourtSelected(false);
               resetForm();
               if (responce.status === 200) {
-                alert("Slot booked sucessfully");
-                setMsg('Slot booked sucessfully')
+                // alert("Slot booked sucessfully");
+                setMsg("Slot booked sucessfully");
               }
-              setIsModalVisible(true)
+              setIsModalVisible(true);
             }}
           >
-            {({ isSubmitting,values, setFieldValue }) => (
+            {({ isSubmitting, values, setFieldValue }) => (
               <Form className="ui form">
                 <label>Email</label>
                 <Field type="email" name="email" />
@@ -158,7 +159,7 @@ const Home = () => {
                 <label>Select Areana</label>
                 <br />
                 <select
-                defaultChecked
+                  defaultChecked
                   className="ui dropdown"
                   onChange={(e) => {
                     console.log(e.target.value);
@@ -168,13 +169,15 @@ const Home = () => {
                   value={values.arena}
                   name="court"
                 >
-                  <option value="" defaultValue label="Choose" />
+                  <option value="" disabled={false} defaultValue label="Choose" />
                   {courtValues?.map((m) => {
+                    console.log('>>>>UM',(m?.under_maintainence),Boolean(m.under_maintainence.toLowerCase()))
                     return (
                       <option
                         key={m.ground_id}
                         value={m.ground_id}
-                        label={m.ground_name}
+                        label={`${m.ground_name} ${m.under_maintainence.toLowerCase()==='true'?'(UNDER-MAINTAINCE)':''}`}
+                        disabled={m.under_maintainence.toLowerCase()==='true'?true:false}
                       />
                     );
                   })}
@@ -189,7 +192,7 @@ const Home = () => {
                   <div>
                     <label>Select slot</label>
                     <select
-                    defaultChecked
+                      defaultChecked
                       className="ui dropdown"
                       onChange={(e) => {
                         setFieldValue("slot", e.target.value);

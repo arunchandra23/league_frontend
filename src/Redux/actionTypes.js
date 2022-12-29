@@ -1,0 +1,6 @@
+const actionTypes={
+    LOGIN_FULFILLED:'LOGIN_FULFILLED',
+    LOGIN_REJECTED:'LOGIN_REJECTED',
+    LOGOUT_FULFILLED:'LOGOUT_FULFILLED',
+}
+export default actionTypes

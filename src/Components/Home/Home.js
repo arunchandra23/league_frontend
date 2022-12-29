@@ -4,6 +4,7 @@ import { isValidPhoneNumber } from "react-phone-number-input";
 import api from "../../api";
 import { Link } from "react-router-dom";
 import Modal from "../Modal/Modal";
+import Singlebooking from "./Singlebooking";
 
 const Home = () => {
   const [show, setShow] = useState(true);
@@ -12,6 +13,12 @@ const Home = () => {
   const [courtValues, setcourtValues] = useState();
   const [isCourtSelected, setIsCourtSelected] = useState(false);
   const [availablSlots, setAvailableSlots] = useState();
+  const [bookings,setBookings]=useState([])
+  const [isGetBookings,setIsGetBookings]=useState(false)
+  const getBookings=async()=>{
+    const responce=await api.get('/getBookings')
+    setBookings(responce.data)
+}
   const getCourts = async () => {
     const responce = await api.get("/getCourts");
     setcourtValues(responce.data);
@@ -42,6 +49,23 @@ const Home = () => {
           </div>
         </div>
         <div style={{ margin: "20vh 0 0 0" }} className="ui raised segment ">
+          <br></br>
+        <button onClick={()=>{setIsGetBookings(!isGetBookings);getBookings()}} className="fluid ui button" >View all Bookings</button>
+        <br></br>
+        {isGetBookings?<div>
+            {bookings.length!==0?bookings.map((m)=>{
+                return(
+                    <div className="ui segments">
+                <Singlebooking booking_id={m.booking_id} key={m.booking_id} name={m.name} bookingtime={m.slot_time} email={m.email} contact={m.contact} ground_name={m.ground_name} />
+                </div>)
+            }):
+                <div className="ui segments" >
+                <div className="ui segment" >
+                    No Bookings
+                </div>
+                </div>}
+            </div>:null}
+            <br></br>
           {isModalVisible ? (
             <Modal handleClose={setIsModalVisible} text={msg} />
           ) : null}

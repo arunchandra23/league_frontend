@@ -5,7 +5,7 @@ import Singlebooking from "./singlebooking";
 
 const Admin=()=>{
     const [courtValues, setcourtValues] = useState([]);
-    const [isCourtSelected,setIsCourtSelected]=useState(false)
+    const [isCourtSelected,setIsCourtSelected]=useState(true)
     const [addingCourt,setAddingCourt]=useState(false)
     const [newCourt,setNewCourt]=useState("")
     const [refetechCourts,setrefetechCourts]=useState(false)
@@ -36,9 +36,13 @@ const Admin=()=>{
     
     return(
         <div className="ui container">
+            <div className="ui secondary pointing menu">
             <br></br>
-        <button className="fluid ui button" onClick={()=>{setIsCourtSelected(!isCourtSelected)}}>Update Courts</button>
-        <br></br>
+        <a className={`${isCourtSelected?'active':null} item`} onClick={()=>{setIsCourtSelected(true);setAddingCourt(false);setIsGetBookings(false);setIsDeleting(false)}}>Update Courts</a>
+        <a className={`${addingCourt?'active':null} item`} onClick={()=>{setAddingCourt(true);setIsGetBookings(false);setIsDeleting(false);setIsCourtSelected(false)}}>Add Court</a>
+        <a className={`${isGetBookings?'active':null} item`}  onClick={()=>{setIsGetBookings(true);setIsDeleting(false);setIsCourtSelected(false);setAddingCourt(false);getBookings()}}>Get Bookings</a>
+        <a className={`${isDeleting?'active':null} item`} onClick={()=>{setIsDeleting(true);setIsCourtSelected(false);setAddingCourt(false);setIsGetBookings(false)}}>Delet Previous Bookings</a>
+        </div>
         {isCourtSelected?<div>{courtValues?.map((m)=>{
             return(
             <Singlecourtbox 
@@ -48,24 +52,22 @@ const Admin=()=>{
             underMaintenence={m.under_maintainence}
              />)
         })}</div>:null}
-        <button className="fluid ui button" onClick={()=>{setAddingCourt(!addingCourt)}} >Add court</button>
-        <br></br>
         {addingCourt?<div className="ui input">
             <input value={newCourt} onChange={(e)=>{setNewCourt(e.target.value)}} type="text" placeholder="Enter Court Name"></input>
             <button onClick={()=>addNewCourt()} type="submit">Submit</button>
         </div>:null}
-        <button className="fluid ui button" onClick={()=>{setIsGetBookings(!isGetBookings);getBookings()}} >Get Bookings</button>
-        <br></br>
         {isGetBookings?<div>
-            {bookings.map((m)=>{
+            {bookings.length!==0?bookings.map((m)=>{
                 return(
                     <div className="ui segments">
-                <Singlebooking booking_id={m.booking_id} key={m.booking_id} name={m.name} bookingtime={m.slot_time} email={m.email} contact={m.contact} ground_name={m.ground_name} />
+                <Singlebooking handlerefetch={getBookings} booking_id={m.booking_id} key={m.booking_id} name={m.name} bookingtime={m.slot_time} email={m.email} contact={m.contact} ground_name={m.ground_name} />
                 </div>)
-            })}
+            }):<div className="ui segments" >
+                <div className="ui segment" >
+                    No Bookings
+                </div>
+                </div>}
             </div>:null}
-        <button className="fluid ui button" onClick={()=>{setIsDeleting(!isDeleting)}} >Delet Previous Bookings</button>
-        <br></br>
         {isDeleting?<div className="ui input">
             <input min={1} value={daysToDelete} onChange={(e)=>{setDaysToDelete(e.target.value)}} type='number' placeholder="Enter Number of Days" ></input>
             <button onClick={()=>{deletePreviousBookings()}} >Delete</button>

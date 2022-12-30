@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState } from "react";
 import api from "../../api";
 
 const Singlecourtbox = ({ courtname, court_id, underMaintenence }) => {
@@ -8,7 +8,7 @@ const Singlecourtbox = ({ courtname, court_id, underMaintenence }) => {
   );
   console.log(">>>>", isCheckboxSelected);
   const handleupdatemaintenence = async (value) => {
-    const responce = await api.put(
+    await api.put(
       `/updatedcouty?court_maintainence=${value}&court_id=${court_id}`
     );
   };

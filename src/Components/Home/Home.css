@@ -3,6 +3,24 @@
     margin: 0;
     box-sizing: border-box;
 }
+
+
+.layer{
+    background: rgba(0, 0, 0, 0.4);
+}
+.home-container{
+   
+}
+.form-container{
+    background-image: url("https://woxsen.edu.in/uploads/A20221015102934.jpg");
+    background-repeat: no-repeat;
+    background-position: center;
+    background-size: cover;
+}
+.home-form{
+    padding: 10vh 0;
+    
+}
 .bookings-button{
     align-items: center !important;
     justify-content: center!important;
@@ -10,8 +28,9 @@
 }
 
 .table-container{
+    display: flex;
     /* width: 80%; */
     justify-content: center;
-    /* align-items: center; */
-    display: flex;
+    align-items: center;
+    /* flex: 1; */
 }

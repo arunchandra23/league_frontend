@@ -4,7 +4,7 @@ import api from "../../api";
 
 const Singlebooking=({ground_name,contact,email,bookingtime,name,booking_id,handlerefetch})=>{
     const cancleBooking=async()=>{
-        const responce=await api.put('/cancleBooking',{booking_id:booking_id}).then(handlerefetch())
+        const responce=await api.put('/cancleBooking',{booking_id:booking_id}).then(()=>{handlerefetch()})
 
     }
     return(

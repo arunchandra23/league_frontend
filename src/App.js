@@ -3,11 +3,13 @@ import { BrowserRouter, Routes, Route } from "react-router-dom";
 import Admin from "./Components/Admin/Admin";
 import Home from "./Components/Home/Home";
 import Login from "./Components/Login/Login";
+import NavBar from "./Components/NavBar/NavBar";
 import ProtectedRoutes from "./Components/ProtectedRoutes/ProtectedRoutes";
 
 function App() {
   return (
     <BrowserRouter>
+        <NavBar/>
       <Routes>
         <Route path="/" element={<Home />} />
         <Route element={<ProtectedRoutes/>}>

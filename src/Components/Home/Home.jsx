@@ -5,6 +5,8 @@ import api from "../../api";
 import { Link } from "react-router-dom";
 import Modal from "../Modal/Modal";
 import Singlebooking from "./Singlebooking";
+import Table from "../../Utils/Table/Table";
+import './Home.css'
 
 const Home = () => {
   const [show, setShow] = useState(true);
@@ -13,12 +15,12 @@ const Home = () => {
   const [courtValues, setcourtValues] = useState();
   const [isCourtSelected, setIsCourtSelected] = useState(false);
   const [availablSlots, setAvailableSlots] = useState();
-  const [bookings,setBookings]=useState([])
-  const [isGetBookings,setIsGetBookings]=useState(false)
-  const getBookings=async()=>{
-    const responce=await api.get('/getBookings')
-    setBookings(responce.data)
-}
+  const [bookings, setBookings] = useState([]);
+  const [isGetBookings, setIsGetBookings] = useState(false);
+  const getBookings = async () => {
+    const responce = await api.get("/getBookings");
+    setBookings(responce.data);
+  };
   const getCourts = async () => {
     const responce = await api.get("/getCourts");
     setcourtValues(responce.data);
@@ -38,34 +40,7 @@ const Home = () => {
   return (
     <div>
       <div className="ui container">
-        <div className="ui fixed borderless huge menu">
-          <Link to="/" className="active item">
-            THE LEAGUE
-          </Link>
-          <div className="right menu">
-            <Link to="/login" className="ui item">
-              ADMIN
-            </Link>
-          </div>
-        </div>
-        <div style={{ margin: "20vh 0 0 0" }} className="ui raised segment ">
-          <br></br>
-        <button onClick={()=>{setIsGetBookings(!isGetBookings);getBookings()}} className="fluid ui button" >View all Bookings</button>
-        <br></br>
-        {isGetBookings?<div>
-            {bookings.length!==0?bookings.map((m)=>{
-                return(
-                    <div className="ui segments">
-                <Singlebooking booking_id={m.booking_id} key={m.booking_id} name={m.name} bookingtime={m.slot_time} email={m.email} contact={m.contact} ground_name={m.ground_name} />
-                </div>)
-            }):
-                <div className="ui segments" >
-                <div className="ui segment" >
-                    No Bookings
-                </div>
-                </div>}
-            </div>:null}
-            <br></br>
+        <div  className="ui raised segment ">
           {isModalVisible ? (
             <Modal handleClose={setIsModalVisible} text={msg} />
           ) : null}
@@ -193,15 +168,32 @@ const Home = () => {
                   value={values.arena}
                   name="court"
                 >
-                  <option value="" disabled={false} defaultValue label="Choose" />
+                  <option
+                    value=""
+                    disabled={false}
+                    defaultValue
+                    label="Choose"
+                  />
                   {courtValues?.map((m) => {
-                    console.log('>>>>UM',(m?.under_maintainence),Boolean(m.under_maintainence.toLowerCase()))
+                    console.log(
+                      ">>>>UM",
+                      m?.under_maintainence,
+                      Boolean(m.under_maintainence.toLowerCase())
+                    );
                     return (
                       <option
                         key={m.ground_id}
                         value={m.ground_id}
-                        label={`${m.ground_name} ${m.under_maintainence.toLowerCase()==='true'?'(UNDER-MAINTAINCE)':''}`}
-                        disabled={m.under_maintainence.toLowerCase()==='true'?true:false}
+                        label={`${m.ground_name} ${
+                          m.under_maintainence.toLowerCase() === "true"
+                            ? "(UNDER-MAINTAINCE)"
+                            : ""
+                        }`}
+                        disabled={
+                          m.under_maintainence.toLowerCase() === "true"
+                            ? true
+                            : false
+                        }
                       />
                     );
                   })}
@@ -251,6 +243,33 @@ const Home = () => {
           </Formik>
         </div>
       </div>
+      <br></br>
+      {console.log(bookings)}
+      <div className="bookings-button">
+        
+      <button style={{'alignSelf':'center'}} className=" ui labeled icon button" onClick={()=>{setIsGetBookings(!isGetBookings);getBookings()}}>
+                    
+                    View bookings{isGetBookings?<i class="chevron down icon"></i>:<i class="chevron up icon"></i>}
+                  </button>
+      </div>
+
+      <br></br>
+      <div className="table-container">
+
+      
+      {isGetBookings ? (
+        <div>
+          {bookings.length !== 0 ? (
+            <Table rowData={bookings} />
+          ) : (
+            <div className="ui segments">
+              <div className="ui segment">No Bookings</div>
+            </div>
+          )}
+        </div>
+      ) : null}
+      </div>
+      <br></br>
     </div>
   );
 };

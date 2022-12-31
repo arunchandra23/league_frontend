@@ -1,0 +1,5 @@
+:root{
+    --black:black;
+    --black-Op40: rgba(0, 0, 0, 0.4);
+    --black-Op50: rgba(0, 0, 0, 0.5);
+}

@@ -5,6 +5,7 @@ import api from "../../api";
 import Modal from "../Modal/Modal";
 import Table from "../../Utils/Table/Table";
 import "./Home.css";
+import "../../Utils/Colors.css";
 
 const Home = () => {
   const [show, setShow] = useState(true);
@@ -37,13 +38,13 @@ const Home = () => {
 
   return (
     <div className="home-container">
+      {isModalVisible ? (
+                <Modal handleClose={setIsModalVisible} text={msg} />
+              ) : null}
       <div className="form-container">
         <div className="layer">
           <div className="home-form ui container">
             <div className="ui raised segment ">
-              {isModalVisible ? (
-                <Modal handleClose={setIsModalVisible} text={msg} />
-              ) : null}
               <Formik
                 initialValues={{
                   email: "",
@@ -217,11 +218,10 @@ const Home = () => {
                           value={values.slot}
                           name="court"
                         >
-                          <option value="" defaultValue label="Choose" />
-                          {availablSlots?.length === 0 ? (
-                            <option value="" label="No slots available" />
-                          ) : (
-                            <>
+                          <option value="" defaultValue label={`${availablSlots?.length === 0 ? (
+                            "No slots available"
+                          ):'Choose'}`} />
+                          
                               {availablSlots?.map((m) => {
                                 return (
                                   <option
@@ -231,8 +231,7 @@ const Home = () => {
                                   />
                                 );
                               })}
-                            </>
-                          )}
+                            
                         </select>
                         <ErrorMessage
                           style={{ color: "red" }}
@@ -265,9 +264,9 @@ const Home = () => {
         >
           View bookings
           {isGetBookings ? (
-            <i class="chevron down icon"></i>
+            <i className="chevron down icon"></i>
           ) : (
-            <i class="chevron up icon"></i>
+            <i className="chevron up icon"></i>
           )}
         </button>
       </div>

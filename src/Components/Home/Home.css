@@ -6,7 +6,7 @@
 
 
 .layer{
-    background: rgba(0, 0, 0, 0.4);
+    background: var(--black-Op40)
 }
 .home-container{
    

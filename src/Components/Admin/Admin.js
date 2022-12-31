@@ -61,7 +61,7 @@ const Admin = () => {
             setIsDeleting(false);
           }}
         >
-          Update Courts
+          Update Arena
         </Link>
         <Link
           className={`${addingCourt ? "active" : null} item`}
@@ -72,7 +72,7 @@ const Admin = () => {
             setIsCourtSelected(false);
           }}
         >
-          Add Court
+          Add Arena
         </Link>
         <Link
           className={`${isGetBookings ? "active" : null} item`}
@@ -84,7 +84,7 @@ const Admin = () => {
             getBookings();
           }}
         >
-          Get Bookings
+         Bookings
         </Link>
         <Link
           className={`${isDeleting ? "active" : null} item`}
@@ -95,7 +95,7 @@ const Admin = () => {
             setIsGetBookings(false);
           }}
         >
-          Delet Previous Bookings
+          Delete Bookings
         </Link>
         <div className="right menu">
           <Link
@@ -104,7 +104,9 @@ const Admin = () => {
               logout();
             }}
           >
+            <button className="ui red  button">
             Logout
+          </button>
           </Link>
         </div>
       </div>
@@ -130,10 +132,11 @@ const Admin = () => {
               setNewCourt(e.target.value);
             }}
             type="text"
-            placeholder="Enter Court Name"
+            placeholder="Enter arena name"
           ></input>
-          <button onClick={() => addNewCourt()} type="submit">
-            Submit
+          <br/>
+          <button className="ui button" onClick={() => addNewCourt()} type="submit">
+            Add
           </button>
         </div>
       ) : null}
@@ -162,8 +165,10 @@ const Admin = () => {
             }}
             type="number"
             placeholder="Enter Number of Days"
-          ></input>
+          />
+          <br/>
           <button
+          className="ui button"
             onClick={() => {
               deletePreviousBookings();
             }}

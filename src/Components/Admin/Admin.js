@@ -11,6 +11,7 @@ const Admin = () => {
   const [courtValues, setcourtValues] = useState([]);
   const [isCourtSelected, setIsCourtSelected] = useState(true);
   const [addingCourt, setAddingCourt] = useState(false);
+  const [isCameraSelected, setIsCameraSelected] = useState(false);
   const [newCourt, setNewCourt] = useState("");
   const [refetechCourts, setrefetechCourts] = useState(false);
   const [isGetBookings, setIsGetBookings] = useState(false);
@@ -59,6 +60,7 @@ const Admin = () => {
             setAddingCourt(false);
             setIsGetBookings(false);
             setIsDeleting(false);
+            setIsCameraSelected(false);
           }}
         >
           Update Arena
@@ -70,6 +72,7 @@ const Admin = () => {
             setIsGetBookings(false);
             setIsDeleting(false);
             setIsCourtSelected(false);
+            setIsCameraSelected(false);
           }}
         >
           Add Arena
@@ -81,6 +84,7 @@ const Admin = () => {
             setIsDeleting(false);
             setIsCourtSelected(false);
             setAddingCourt(false);
+            setIsCameraSelected(false);
             getBookings();
           }}
         >
@@ -93,9 +97,22 @@ const Admin = () => {
             setIsCourtSelected(false);
             setAddingCourt(false);
             setIsGetBookings(false);
+            setIsCameraSelected(false);
           }}
         >
           Delete Bookings
+        </Link>
+        <Link
+          className={`${isCameraSelected ? "active" : null} item`}
+          onClick={() => {
+            setIsCameraSelected(true);
+            setIsDeleting(false);
+            setIsCourtSelected(false);
+            setAddingCourt(false);
+            setIsGetBookings(false);
+          }}
+        >
+          Security
         </Link>
         <div className="right menu">
           <Link

@@ -39,12 +39,12 @@ const Home = () => {
   return (
     <div className="home-container">
       {isModalVisible ? (
-                <Modal handleClose={setIsModalVisible} text={msg} />
-              ) : null}
+        <Modal handleClose={setIsModalVisible} text={msg} />
+      ) : null}
       <div className="form-container">
         <div className="layer">
           <div className="home-form ui container">
-            <div className="ui raised segment ">
+            <div className="home-form-segment ui raised segment ">
               <Formik
                 initialValues={{
                   email: "",
@@ -134,7 +134,7 @@ const Home = () => {
                 {({ isSubmitting, values, setFieldValue }) => (
                   <Form className="ui form">
                     <label>Email</label>
-                    <Field type="email" name="email" />
+                    <Field className="field" type="email" name="email" />
                     <ErrorMessage
                       style={{ color: "red" }}
                       name="email"
@@ -142,7 +142,7 @@ const Home = () => {
                     />
                     <br />
                     <label>Name</label>
-                    <Field type="text" name="name" />
+                    <Field className="field" type="text" name="name" />
                     <ErrorMessage
                       style={{ color: "red" }}
                       name="name"
@@ -150,7 +150,7 @@ const Home = () => {
                     />
                     <br />
                     <label>Mobile Number</label>
-                    <Field type="text" name="contact" />
+                    <Field className="field" type="text" name="contact" />
                     <ErrorMessage
                       style={{ color: "red" }}
                       name="contact"
@@ -161,7 +161,7 @@ const Home = () => {
                     <br />
                     <select
                       defaultChecked
-                      className="ui dropdown"
+                      className="field ui dropdown"
                       onChange={(e) => {
                         console.log(e.target.value);
                         getAvailableSlots(e.target.value);
@@ -171,6 +171,7 @@ const Home = () => {
                       name="court"
                     >
                       <option
+                        className="field"
                         value=""
                         disabled={false}
                         defaultValue
@@ -184,6 +185,7 @@ const Home = () => {
                         );
                         return (
                           <option
+                            className="field"
                             key={m.ground_id}
                             value={m.ground_id}
                             label={`${m.ground_name} ${
@@ -211,27 +213,34 @@ const Home = () => {
                         <label>Select slot</label>
                         <select
                           defaultChecked
-                          className="ui dropdown"
+                          className="field ui dropdown"
                           onChange={(e) => {
                             setFieldValue("slot", e.target.value);
                           }}
                           value={values.slot}
                           name="court"
                         >
-                          <option value="" defaultValue label={`${availablSlots?.length === 0 ? (
-                            "No slots available"
-                          ):'Choose'}`} />
-                          
-                              {availablSlots?.map((m) => {
-                                return (
-                                  <option
-                                    key={m.slot_id}
-                                    value={m.slot_id}
-                                    label={m.slot_time}
-                                  />
-                                );
-                              })}
-                            
+                          <option
+                            className="field"
+                            value=""
+                            defaultValue
+                            label={`${
+                              availablSlots?.length === 0
+                                ? "No slots available"
+                                : "Choose"
+                            }`}
+                          />
+
+                          {availablSlots?.map((m) => {
+                            return (
+                              <option
+                                className="field"
+                                key={m.slot_id}
+                                value={m.slot_id}
+                                label={m.slot_time}
+                              />
+                            );
+                          })}
                         </select>
                         <ErrorMessage
                           style={{ color: "red" }}

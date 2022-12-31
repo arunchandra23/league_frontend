@@ -21,6 +21,15 @@
     padding: 10vh 0;
     
 }
+.home-form-segment{
+    background-color: rgba(255, 255, 255, 0.6) !important;
+
+}
+.field{
+    background-color: rgba(255, 255, 255, 0.7) !important;
+
+}
+
 .bookings-button{
     align-items: center !important;
     justify-content: center!important;
